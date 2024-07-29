@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Get the original commit message
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+# Only alter the commit message if it's a normal commit, not a merge or a squash commit
+if [ -z "$COMMIT_SOURCE" ]; then
+  ORIGINAL_MSG=$(cat "$COMMIT_MSG_FILE")
+  RESPONSE=$(curl -s -X POST http://localhost:5000/reformulate -H "Content-Type: application/json" -d "{\"commit_message\": \"$ORIGINAL_MSG\"}")
+  NEW_MSG=$(echo $RESPONSE | jq -r '.reformulated_message')
+
+  echo "Original commit message:"
+  echo "$ORIGINAL_MSG"
+  echo
+  echo "Reformulated commit message:"
+  echo "$NEW_MSG"
+  echo
+  read -p "Do you want to use the reformulated commit message? (y/N): " -n 1 -r
+  echo
+
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "$NEW_MSG" > "$COMMIT_MSG_FILE"
+  fi
+fi
