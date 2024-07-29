@@ -8,7 +8,7 @@ SHA1=$3
 # Only alter the commit message if it's a normal commit, not a merge or a squash commit
 if [ -z "$COMMIT_SOURCE" ]; then
   ORIGINAL_MSG=$(cat "$COMMIT_MSG_FILE")
-  RESPONSE=$(curl -s -X POST http://localhost:5000/reformulate -H "Content-Type: application/json" -d "{\"commit_message\": \"$ORIGINAL_MSG\"}")
+  RESPONSE=$(curl -s -X POST http://localhost:$PORT/reformulate -H "Content-Type: application/json" -d "{\"commit_message\": \"$ORIGINAL_MSG\"}")
   NEW_MSG=$(echo $RESPONSE | jq -r '.reformulated_message')
 
   echo "Original commit message:"

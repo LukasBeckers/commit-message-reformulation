@@ -11,14 +11,17 @@ def reformulate_commit_message():
     api_key = os.getenv('OPENAI_API_KEY')
     openai.api_key = api_key
 
-    prompt = f"Reformulate the following commit message to follow the GitHub semantic commit messages convention: {commit_message}"
-    response = openai.Completion.create(
-        engine=os.getenv("MODEL"),
-        prompt=prompt,
+    prompt = f"You are a helpful assistant that reformulates commit messages to follow the GitHub semantic commit messages convention."
+    response = openai.ChatCompletion.create(
+        model=os.getenv("MODEL"),
+        messages=[
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": f"Reformulate the following commit message to follow the GitHub semantic commit messages convention write just the reformulated commit message nothing else: {commit_message}"}
+                ],
         max_tokens=60
     )
 
-    reformulated_message = response.choices[0].text.strip()
+    reformulated_message = response['choices'][0]['message']['content'].strip()
     return jsonify({"reformulated_message": reformulated_message})
 
 if __name__ == '__main__':
