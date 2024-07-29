@@ -25,4 +25,4 @@ def reformulate_commit_message():
     return jsonify({"reformulated_message": reformulated_message})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=os.getenv("PORT"))
+    app.run(host='0.0.0.0', port=5000)
