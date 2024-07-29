@@ -11,6 +11,11 @@ if [ -z "$COMMIT_SOURCE" ]; then
   RESPONSE=$(curl -s -X POST http://localhost:$PORT/reformulate -H "Content-Type: application/json" -d "{\"commit_message\": \"$ORIGINAL_MSG\"}")
   NEW_MSG=$(echo $RESPONSE | jq -r '.reformulated_message')
 
+  # Check if the reformulated message is empty
+  if [ -z "$NEW_MSG" ]; then
+    echo "No reformulated message received" >> /tmp/commit-msg-hook.log
+  fi
+
   echo "Original commit message:"
   echo "$ORIGINAL_MSG"
   echo
