@@ -25,12 +25,11 @@ This project provides a service that reformulates Git commit messages to follow 
    cd commit-message-reformulation-server
    ```
 
-2. Set your OpenAI API key, your prefered model and the port in the docker-compose.yaml:
+2. Set your OpenAI API key and your prefered model in the docker-compose.yaml:
 
    ```
    -OPENAI_API_KEY="your_openai_api_key"
    -MODEL="gpt-4o-mini"
-   -PORT=5000
    ```
 
 3. Run the setup script:
