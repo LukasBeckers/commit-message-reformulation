@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install --no-cache-dir flask openai==0.28 requests
+RUN pip install --no-cache-dir Flask==3.0.3 openai==0.28 requests==2.32.3
 
 EXPOSE 5000
 
